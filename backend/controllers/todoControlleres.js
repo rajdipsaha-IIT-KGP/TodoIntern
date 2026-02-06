@@ -82,7 +82,7 @@ const toggleTodoStatus = TryCatch(async (req, res) => {
 const getTodos = TryCatch(async (req, res) => {
   const todos = await Todo.find({ user: req.user._id }).sort({ createdAt: -1 });
 
-  res.status(200).json({ todos });
+  res.status(200).json({ todos:todos });
 });
 
 module.exports = {
