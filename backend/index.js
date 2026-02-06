@@ -15,10 +15,14 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://todo-intern-ten.vercel.app",
+    ],
     credentials: true,
   })
 );
+
 
 app.use(cookieParser());
 
