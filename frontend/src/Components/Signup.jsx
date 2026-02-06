@@ -18,7 +18,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/api/auth/register", {
+      await axios.post("https://todointern-1.onrender.com/api/auth/register", {
         name,
         email,
         password,

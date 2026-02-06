@@ -55,7 +55,7 @@ useEffect(() => {
         if(!isAuth)
             return toast.error("Login First")
       const { data } = await axios.get(
-        "http://localhost:3000/api/todos/all"
+        "https://todointern-1.onrender.com/api/todos/all"
       );
       setTodos(data.todos);
     } catch {
@@ -80,7 +80,7 @@ useEffect(() => {
     if (!description.trim()) return toast.error("Description is required");
 
     try {
-      await axios.post("http://localhost:3000/api/todos/new", {
+      await axios.post("https://todointern-1.onrender.com/api/todos/new", {
         title,
         description,
       });
@@ -108,7 +108,7 @@ useEffect(() => {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/todos/edit/${editId}`,
+        `https://todointern-1.onrender.com/api/todos/edit/${editId}`,
         {
           title: editTitle,
           description: editDescription,
@@ -127,7 +127,7 @@ useEffect(() => {
   const deleteTodo = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/todos/delete/${id}`
+        `https://todointern-1.onrender.com/api/todos/delete/${id}`
       );
       toast.success("Task deleted");
       fetchTodos();
@@ -140,7 +140,7 @@ useEffect(() => {
   const toggleStatus = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:3000/api/todos/${id}/status`
+        `https://todointern-1.onrender.com/api/todos/${id}/status`
       );
       fetchTodos();
     } catch {

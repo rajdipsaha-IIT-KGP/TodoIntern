@@ -59,7 +59,7 @@ const UserIconButton = () => {
                 text="Log Out"
                 onClick={async() => {
                     try{
- await axios.get('http://localhost:3000/api/auth/logoutUser')
+ await axios.get('https://todointern-1.onrender.com/api/auth/logoutUser')
     toast.success("Logout successfully!")
 
                   setOpen(false);
