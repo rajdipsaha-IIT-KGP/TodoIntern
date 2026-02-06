@@ -36,6 +36,13 @@ const Home = () => {
   const menuRef = useRef(null);
 
   const hasShownToast = useRef(false);
+/* ================= OPEN EDIT MODAL ================= */
+const openEditModal = (todo) => {
+  setEditId(todo._id);
+  setEditTitle(todo.title);
+  setEditDescription(todo.description || "");
+  setOpen(true);
+};
 
   useEffect(() => {
     if (!isAuth && !hasShownToast.current) {
