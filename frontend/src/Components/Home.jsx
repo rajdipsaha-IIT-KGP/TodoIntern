@@ -36,7 +36,14 @@ const Home = () => {
   const menuRef = useRef(null);
 
   const hasShownToast = useRef(false);
-/* ================= OPEN EDIT MODAL ================= */
+
+/* =================  Progress logic ================= */
+const totalTodos = todos.length;
+const completedTodos = todos.filter(todo=>todo.completed).length
+
+const progress = totalTodos === 0 ? 0 : Math.round((completedTodos/totalTodos) * 100)
+
+/* =================  MODAL ================= */
 const openEditModal = (todo) => {
   setEditId(todo._id);
   setEditTitle(todo.title);
@@ -186,6 +193,8 @@ const openEditModal = (todo) => {
         </div>
       )}
 
+
+
       <div className="min-h-screen bg-[#0f172a] px-4">
         {/* ================= USER MENU ================= */}
         <div ref={menuRef} className="fixed top-6 right-6 z-50">
@@ -223,6 +232,33 @@ const openEditModal = (todo) => {
             <h1 className="text-2xl font-semibold text-center mb-6 text-white">
               Todo List
             </h1>
+
+            {/* ================= TASK PROGRESS ================= */}
+<div className="flex justify-center mb-6">
+  <div className="relative w-28 h-28">
+    {/* Progress Ring */}
+    <div
+      className="w-full h-full rounded-full flex items-center justify-center transition-all duration-500"
+      style={{
+        background: `conic-gradient(
+          #6366f1 ${progress * 3.6}deg,
+          #1e293b 0deg
+        )`,
+      }}
+    >
+      {/* Inner Circle */}
+      <div className="w-20 h-20 bg-[#020617] rounded-full flex flex-col items-center justify-center">
+        <span className="text-white font-semibold text-lg">
+          {progress}%
+        </span>
+        <span className="text-xs text-gray-400">
+          completed
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
 
             <div className="flex flex-col gap-3 mb-6">
               <input
