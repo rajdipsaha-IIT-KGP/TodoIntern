@@ -8,7 +8,7 @@ This project was developed as part of an internship-level full-stack application
 ## 🌐 Live Demo
 
 🔗 **Frontend (Vercel)**  
-https://vercel.com/rajdip-sahas-projects/todo-intern
+https://todo-intern-ten.vercel.app/
 
 ---
 
@@ -126,6 +126,7 @@ IIT Kharagpur
 Full-Stack Developer
 
 🔗 GitHub: https://github.com/rajdipsaha-IIT-KGP
+
 
 
 
