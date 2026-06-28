@@ -12,6 +12,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Filter } from "lucide-react";
 
 axios.defaults.withCredentials = true;
 
@@ -19,6 +20,8 @@ const Home = () => {
   const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [filter,setFilter] = useState("all");
+
 
   // 🔹 GLOBAL LOADER
   const [loading, setLoading] = useState(false);
@@ -31,11 +34,21 @@ const Home = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { logout, isAuth } = useAuth();
+  const { logout, isAuth ,loading:authLoading} = useAuth();
   const navigate = useNavigate();
   const menuRef = useRef(null);
 
   const hasShownToast = useRef(false);
+
+  /* =================  Filter Logic ================= */ 
+
+  const filteredTodos = todos.filter(todo =>{
+    if(filter == "completed")
+      return todo.completed;
+    if(filter == "pending")
+      return !todo.completed;
+    return true;
+  })
 
 /* =================  Progress logic ================= */
 const totalTodos = todos.length;
@@ -52,17 +65,19 @@ const openEditModal = (todo) => {
 };
 
   useEffect(() => {
-    if (!isAuth && !hasShownToast.current) {
-      hasShownToast.current = true;
-      toast.error("Login first");
+  if (authLoading) return;
 
-      const timer = setTimeout(() => {
-        navigate("/login", { replace: true });
-      }, 1500);
+  if (!isAuth && !hasShownToast.current) {
+    hasShownToast.current = true;
+    toast.error("Login first");
 
-      return () => clearTimeout(timer);
-    }
-  }, [isAuth, navigate]);
+    const timer = setTimeout(() => {
+      navigate("/login", { replace: true });
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }
+}, [isAuth, authLoading, navigate]);
 
   /* ================= FETCH TODOS ================= */
   const fetchTodos = async () => {
@@ -81,8 +96,10 @@ const openEditModal = (todo) => {
   };
 
   useEffect(() => {
+  if (!loading && isAuth) {
     fetchTodos();
-  }, []);
+  }
+}, [authLoading, isAuth]);
 
   /* ================= ADD TODO ================= */
   const addTodo = async () => {
@@ -258,7 +275,58 @@ const openEditModal = (todo) => {
     </div>
   </div>
 </div>
+{/* ================= FILTER ================= */}
+<div className="flex justify-end mb-6">
+  <div className="relative flex items-center">
+    <Filter
+      size={18}
+      className="absolute left-3 text-gray-400 pointer-events-none"
+    />
 
+    <select
+      value={filter}
+      onChange={(e) => setFilter(e.target.value)}
+      className="
+        appearance-none
+        bg-[#0f172a]
+        text-white
+        border border-gray-700
+        rounded-xl
+        pl-10
+        pr-10
+        py-2.5
+        cursor-pointer
+        transition-all
+        duration-300
+        ease-in-out
+        hover:border-indigo-500
+        hover:bg-[#111827]
+        focus:outline-none
+        focus:ring-2
+        focus:ring-indigo-500
+        focus:border-indigo-500
+      "
+    >
+      <option value="all">All ({totalTodos})</option>
+      <option value="pending">
+        Pending ({totalTodos - completedTodos})
+      </option>
+      <option value="completed">
+        Completed ({completedTodos})
+      </option>
+    </select>
+
+    <svg
+      className="absolute right-3 w-4 h-4 text-gray-400 pointer-events-none transition-transform duration-300"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+</div>
 
             <div className="flex flex-col gap-3 mb-6">
               <input
@@ -284,7 +352,7 @@ const openEditModal = (todo) => {
             </div>
 
             <div className="space-y-3 max-h-[320px] overflow-y-auto">
-              {todos.map((todo) => (
+              {filteredTodos.map((todo) => (
                 <div
                   key={todo._id}
                   className="bg-[#020617] border border-gray-800 rounded-xl px-4 py-3"

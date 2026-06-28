@@ -4,6 +4,7 @@ import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { isAuth, loading } = useAuth();
@@ -18,6 +19,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+    <Toaster/>
       <Routes>
         
         <Route

@@ -57,8 +57,14 @@ const loginUser = TryCatch(async (req, res) => {
 });
 
 const logoutUser = TryCatch(async (req, res) => {
-  res.cookie("token", "", { maxAge: 0 });
-  res.json({
+  res.cookie("token", "", {
+    maxAge: 0,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+
+  res.status(200).json({
     message: "Logged out successfully",
   });
 });
