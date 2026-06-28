@@ -12,7 +12,7 @@ export const AuthProvider = ({children}) => {
     useEffect(()=>{
         const checkAuth = async()=>{
 try{
-  await axios.get("http://localhost:3000/api/todos/all")
+  await axios.get("https://todo-intern-ten.vercel.app/api/todos/all")
   setIsAuth(true)
       }
       catch(err){
@@ -27,7 +27,7 @@ setLoading(false)
     },[])
     async function logout() {
         try{
-await axios.get("http://localhost:3000/api/auth/logoutUser")
+await axios.get("https://todo-intern-ten.vercel.app/api/auth/logoutUser")
 setIsAuth(false)
 toast.success("Succesfully Logout")
         }
